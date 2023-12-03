@@ -19,7 +19,6 @@ def replace_alpha_with_num(item, written_numbers, nums):
         while item_nums.find(i) != -1:
             indices[item_nums.find(i)] = i
             item_nums = item_nums.replace(i, " ", 1)
-
     for i in written_numbers:
         item_nums = item
         while item_nums.find(i) != -1:
@@ -28,11 +27,11 @@ def replace_alpha_with_num(item, written_numbers, nums):
 
     sorted_indices = sorted(list(indices.keys()))
 
-
     for index in sorted_indices:
         replaced_string += indices[index]
 
     return replaced_string
+
 
 written_numbers = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
 nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
@@ -42,7 +41,6 @@ replaced_data = []
 with open('day1_trebuchet/puzzle_input1.txt', 'r') as file:
     raw_data = file.read()
     data = raw_data.split('\n')
-
 
 # For each item, replace alphas with nums and append to new list
 for item in data:
