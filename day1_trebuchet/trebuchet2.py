@@ -26,4 +26,32 @@ with open('day1_trebuchet/puzzle_input1.txt', 'r') as file:
 for item in data:
     replaced_data.append(replace_alpha_with_num(item, written_numbers, nums))
 
-print(replaced_data)
+
+
+# Filter out all alpha characters, leaving only numeric characters
+nums = []
+
+for item in replaced_data:
+    new_string = ''
+    for char in item:
+        if char.isnumeric():
+            new_string += char
+    nums.append(new_string)
+
+# For each number, slice the first and last character and combine them
+# to find the missing calibration_values, typecasting as integers
+calibration_values = []
+
+for item in nums:
+    new_num = ''
+    new_num += item[0]
+    new_num += item[-1]
+    calibration_values.append(int(new_num))
+
+# Add all calibration_values together and print the sum total
+total = 0
+
+for item in calibration_values:
+    total += item
+
+print(total)
