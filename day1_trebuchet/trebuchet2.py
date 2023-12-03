@@ -9,12 +9,21 @@ Description: This code will take alphanumeric input and parse the numbers from e
 # Function to replace alpha representations of numbers with their numeric counterparts
 def replace_alpha_with_num(item, written_numbers, nums):
     for i, alphanum in enumerate(written_numbers):
-        item.replace(alphanum, nums[i])
+        item = item.replace(alphanum, str(nums[i]))
+    return item
+
+written_numbers = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+nums = range(1, 10)
+replaced_data = []
 
 # Open the file and place each line in a list
 with open('day1_trebuchet/puzzle_input1.txt', 'r') as file:
     raw_data = file.read()
     data = raw_data.split('\n')
 
-written_numbers = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
-nums = range(1, 9)
+
+# For each item, replace alphas with nums and append to new list
+for item in data:
+    replaced_data.append(replace_alpha_with_num(item, written_numbers, nums))
+
+print(replaced_data)
