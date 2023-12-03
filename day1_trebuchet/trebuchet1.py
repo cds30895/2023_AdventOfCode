@@ -24,7 +24,7 @@ for item in data:
     nums.append(new_string)
 
 # For each number, slice the first and last character and combine them
-# to find the missing calibration value, typecasting as integers
+# to find the missing calibration_values, typecasting as integers
 calibration_values = []
 
 for item in nums:
@@ -33,4 +33,9 @@ for item in nums:
     new_num += item[-1]
     calibration_values.append(int(new_num))
 
-print(calibration_values)
+# Add all calibration_values together and print the sum total
+total = 0
+for item in calibration_values:
+    total += item
+
+print(total)
