@@ -8,9 +8,18 @@ Description: This code will take alphanumeric input and parse the numbers from e
 
 
 # Open the file and place each line in a list
-with open('puzzle_input1.txt', 'r') as file:
+with open('day1_trebuchet/puzzle_input1.txt', 'r') as file:
     raw_data = file.read()
-    data = []
-    data.append(raw_data.split('\n'))
+    data = raw_data.split('\n')
 
-print(data)
+# Filter out all alpha characters, leaving only numeric characters
+nums = []
+
+for item in data:
+    new_string = ''
+    for char in item:
+        if char.isnumeric():
+            new_string += char
+
+    nums.append(new_string)
+
