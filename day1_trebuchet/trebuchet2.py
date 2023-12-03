@@ -7,13 +7,35 @@ Description: This code will take alphanumeric input and parse the numbers from e
 """
 
 # Function to replace alpha representations of numbers with their numeric counterparts
+# This function creates a dictionary keyed to indexes at which numbers occurr, with those
+# occurring numbers as values.  Then it sorts the keys and returns a new string with the 
+# values in sorted order
 def replace_alpha_with_num(item, written_numbers, nums):
-    for i, alphanum in enumerate(written_numbers):
-        item = item.replace(alphanum, str(nums[i]))
-    return item
+    indices = {}
+    replaced_string = ''
+
+    for i in nums:
+        item_nums = item
+        while item_nums.find(i) != -1:
+            indices[item_nums.find(i)] = i
+            item_nums = item_nums.replace(i, " ", 1)
+
+    for i in written_numbers:
+        item_nums = item
+        while item_nums.find(i) != -1:
+            indices[item_nums.find(i)] = str(written_numbers.index(i) + 1)
+            item_nums = item_nums.replace(i, " "*len(i), 1)
+
+    sorted_indices = sorted(list(indices.keys()))
+
+
+    for index in sorted_indices:
+        replaced_string += indices[index]
+
+    return replaced_string
 
 written_numbers = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
-nums = range(1, 10)
+nums = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 replaced_data = []
 
 # Open the file and place each line in a list
@@ -26,7 +48,7 @@ with open('day1_trebuchet/puzzle_input1.txt', 'r') as file:
 for item in data:
     replaced_data.append(replace_alpha_with_num(item, written_numbers, nums))
 
-
+print(replaced_data)
 
 # Filter out all alpha characters, leaving only numeric characters
 nums = []
@@ -38,6 +60,8 @@ for item in replaced_data:
             new_string += char
     nums.append(new_string)
 
+print(nums)
+
 # For each number, slice the first and last character and combine them
 # to find the missing calibration_values, typecasting as integers
 calibration_values = []
@@ -47,6 +71,8 @@ for item in nums:
     new_num += item[0]
     new_num += item[-1]
     calibration_values.append(int(new_num))
+
+print(calibration_values)
 
 # Add all calibration_values together and print the sum total
 total = 0
