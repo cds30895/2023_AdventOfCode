@@ -20,7 +20,6 @@ for item in data:
     for char in item:
         if char.isnumeric():
             new_string += char
-
     nums.append(new_string)
 
 # For each number, slice the first and last character and combine them
@@ -35,6 +34,7 @@ for item in nums:
 
 # Add all calibration_values together and print the sum total
 total = 0
+
 for item in calibration_values:
     total += item
 
