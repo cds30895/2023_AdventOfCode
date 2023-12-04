@@ -28,18 +28,27 @@ def count_colors(colors):
                 if i.isnumeric():
                     red += i
             color_count['red'] = int(red)
+        else:
+            color_count['red'] = 0
+
         if 'green' in color:
             green = ''
             for i in color:
                 if i.isnumeric():
                     green += i
             color_count['green'] = int(green)
+        # else:
+        #     color_count['green'] = 0
+
         if 'blue' in color:
             blue = ''
             for i in color:
                 if i.isnumeric():
                     blue += i
             color_count['blue'] = int(blue)
+        # else:
+        #     color_count['blue'] = 0
+
     return color_count
 
 #### MAIN CODE ####
@@ -53,5 +62,5 @@ with open('day2_cube_conundrum/puzzle_input2.txt', 'r') as file:
     raw_data = file.read()
     data = raw_data.split('\n')
 
-print(count_colors(split_games_into_rounds(data[2])[1].split(', ')))
+print(count_colors(split_games_into_rounds(data[0])[0].split(', ')))
 
