@@ -50,10 +50,27 @@ def count_colors(colors):
 red_possible = 12
 green_possible = 13
 blue_possible = 14
+total = 0 
 
 # Open the file and place each line in a list
 with open('day2_cube_conundrum/puzzle_input2.txt', 'r') as file:
     raw_data = file.read()
     data = raw_data.split('\n')
 
-print(count_colors(split_games_into_rounds(data[0])[1].split(', ')))
+for game in data:
+    possible = True
+
+    for round in split_games_into_rounds(game):
+        color_count = count_colors(split_rounds_into_colors(round))
+
+        if color_count['red'] < red_possible and color_count['green'] < green_possible and color_count['blue'] < blue_possible:
+            continue
+
+        else:
+            possible = False
+            break
+
+    if possible:
+        total += int(game[5:(game.index(':'))])
+
+print(total)
