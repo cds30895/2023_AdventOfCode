@@ -18,12 +18,40 @@ def split_rounds_into_colors(round):
     colors = round.split(', ')
     return colors
 
+# Function to return numbers associated with each color
+def count_colors(colors):
+    color_count = {}
+    for color in colors:
+        if 'red' in color:
+            red = ''
+            for i in color:
+                if i.isnumeric():
+                    red += i
+            color_count['red'] = int(red)
+        if 'green' in color:
+            green = ''
+            for i in color:
+                if i.isnumeric():
+                    green += i
+            color_count['green'] = int(green)
+        if 'blue' in color:
+            blue = ''
+            for i in color:
+                if i.isnumeric():
+                    blue += i
+            color_count['blue'] = int(blue)
+    return color_count
 
 #### MAIN CODE ####
+
+red_possible = 12
+green_possible = 13
+blue_possible = 14
 
 # Open the file and place each line in a list
 with open('day2_cube_conundrum/puzzle_input2.txt', 'r') as file:
     raw_data = file.read()
     data = raw_data.split('\n')
 
-print(split_games_into_rounds(data[3])[1].split(', '))
+print(count_colors(split_games_into_rounds(data[2])[1].split(', ')))
+
