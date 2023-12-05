@@ -13,6 +13,7 @@ class DoubleNode():
         self.next = None
         self.prev = None
         self.numbers = find_numbers(value)
+        self.syms_idx = find_symbols(value)
 
 class DoublyLinkedList():
     def __init__(self):
@@ -59,6 +60,16 @@ def find_numbers(string):
 
     return found_numbers
 
+# Function to return list of indexes of all symbols in a given string
+def find_symbols(string):
+    syms_idx = []
+
+    for i, char in enumerate(string):
+        if char != '.' and not char.isnumeric():
+            syms_idx.append(i)
+
+    return syms_idx
+
 
 #### MAIN CODE ####
 
@@ -73,7 +84,7 @@ with open('day3_gear_ratios/puzzle_input3.txt', 'r') as file:
 #     dllist.append(line)
 
 nums = find_numbers(data[1])
-# for num in nums:
-#     if len(num) == 0:
+syms = find_symbols(data[1])
 
 print(nums)
+print(syms)
