@@ -47,19 +47,29 @@ def count_colors(colors):
 
 # Function to list the counts for each round of a game and return the max for each color
 def max_count_colors(game):
-    color_counts = {'red': [], 'green': [], 'blue': []}
+    max_color_count = {'red': [], 'green': [], 'blue': []}
     rounds = split_games_into_rounds(game)
 
     for round in rounds:
         color_count = count_colors(split_rounds_into_colors(round))
 
         for key in color_count.keys():
-            color_counts[key].append(color_count[key])
+            max_color_count[key].append(color_count[key])
 
-    for key in color_counts.keys():
-        color_counts[key] = max(color_counts[key])
+    for key in max_color_count.keys():
+        max_color_count[key] = max(max_color_count[key])
 
-    return color_counts
+    return max_color_count
+
+
+# Function to multiply all max_color_count
+def mult_count_colors(max_color_count):
+    product = 1
+
+    for key in max_color_count.keys():
+        product *= max_color_count[key]
+
+    return product
 
 
 #### MAIN CODE ####
@@ -71,4 +81,4 @@ with open('day2_cube_conundrum/puzzle_input2.txt', 'r') as file:
     raw_data = file.read()
     data = raw_data.split('\n')
 
-print(max_count_colors(data[0]))
+print(mult_count_colors(max_count_colors(data[0])))
