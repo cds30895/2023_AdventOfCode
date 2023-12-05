@@ -32,12 +32,27 @@ class DoublyLinkedList():
         self.tail = new_node
         print(f'Appended new Node with value: {self.tail.value}')
 
-    
-
 
 #### FUNCTIONS ####
 
+# Function to return dictionary of all numbers and their indexes in a given string
+def find_numbers(string):
+    chunks = ''
+    nums = []
 
+    for char in string:
+        if char == '.' or char.isnumeric():
+            chunks += char
+        else:
+            chunks += '.'
+
+    chunks = chunks.split('.')
+    
+    for item in chunks:
+        if item != '.' and item != '':
+            nums.append(item)
+
+    return nums
 
 
 #### MAIN CODE ####
@@ -49,5 +64,11 @@ with open('day3_gear_ratios/puzzle_input3.txt', 'r') as file:
     raw_data = file.read()
     data = raw_data.split('\n')
 
-for line in data:
-    dllist.append(line)
+# for line in data:
+#     dllist.append(line)
+
+nums = find_numbers(data[1])
+# for num in nums:
+#     if len(num) == 0:
+
+print(nums)
