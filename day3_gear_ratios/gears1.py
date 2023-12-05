@@ -7,6 +7,8 @@ Description: This program will take a large input of numbers separated by period
 
 #### CLASSES ####
 
+# The DoubleNode() and DoublyLinkedList() form an architecture in
+# which each line can be compared to the line above and below it
 class DoubleNode():
     def __init__(self, value):
         self.value = value
@@ -43,18 +45,22 @@ def find_numbers(string):
     nums = []
     found_numbers = {}
 
+    # Replace all symbols with '.'
     for char in string:
         if char == '.' or char.isnumeric():
             chunks += char
         else:
             chunks += '.'
 
+    # Create a new list split by '.' in order to preserve multi-numeral numbers
     chunks = chunks.split('.')
     
+    # Add the preserved numbers to a list, filtering out '.' and ''
     for item in chunks:
         if item != '.' and item != '':
             nums.append(item)
 
+    # Add found numbers as keys to a dictionary with values of a list of indexes the number occupies
     for num in nums:
         found_numbers[num] = list(range(string.index(num), (string.index(num) + len(num))))
 
@@ -64,6 +70,7 @@ def find_numbers(string):
 def find_symbols(string):
     syms_idx = []
 
+    # Append indexes of symbols to a list
     for i, char in enumerate(string):
         if char != '.' and not char.isnumeric():
             syms_idx.append(i)
