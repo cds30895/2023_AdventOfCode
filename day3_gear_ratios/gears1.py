@@ -12,6 +12,7 @@ class DoubleNode():
         self.value = value
         self.next = None
         self.prev = None
+        self.numbers = find_numbers(value)
 
 class DoublyLinkedList():
     def __init__(self):
@@ -39,6 +40,7 @@ class DoublyLinkedList():
 def find_numbers(string):
     chunks = ''
     nums = []
+    found_numbers = {}
 
     for char in string:
         if char == '.' or char.isnumeric():
@@ -52,7 +54,10 @@ def find_numbers(string):
         if item != '.' and item != '':
             nums.append(item)
 
-    return nums
+    for num in nums:
+        found_numbers[num] = string.index(num)
+
+    return found_numbers
 
 
 #### MAIN CODE ####
