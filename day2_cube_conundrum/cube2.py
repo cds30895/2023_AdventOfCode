@@ -81,4 +81,7 @@ with open('day2_cube_conundrum/puzzle_input2.txt', 'r') as file:
     raw_data = file.read()
     data = raw_data.split('\n')
 
-print(mult_count_colors(max_count_colors(data[0])))
+for game in data:
+    total += mult_count_colors(max_count_colors(game))
+
+print(total)
