@@ -62,8 +62,9 @@ for game in data:
 
     for round in split_games_into_rounds(game):
         color_count = count_colors(split_rounds_into_colors(round))
+        
 
-        if color_count['red'] < red_possible and color_count['green'] < green_possible and color_count['blue'] < blue_possible:
+        if color_count['red'] <= red_possible and color_count['green'] <= green_possible and color_count['blue'] <= blue_possible:
             continue
 
         else:
