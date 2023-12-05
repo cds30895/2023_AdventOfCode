@@ -56,7 +56,7 @@ def find_numbers(string):
             nums.append(item)
 
     for num in nums:
-        found_numbers[num] = string.index(num)
+        found_numbers[num] = list(range(string.index(num), (string.index(num) + len(num))))
 
     return found_numbers
 
@@ -83,8 +83,8 @@ with open('day3_gear_ratios/puzzle_input3.txt', 'r') as file:
 # for line in data:
 #     dllist.append(line)
 
-nums = find_numbers(data[1])
-syms = find_symbols(data[1])
+nums = find_numbers(data[0])
+syms = find_symbols(data[0])
 
 print(nums)
 print(syms)
