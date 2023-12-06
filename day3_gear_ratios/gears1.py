@@ -60,9 +60,15 @@ def find_numbers(string):
         if item != '.' and item != '':
             nums.append(item)
 
-    # Add found numbers as keys to a dictionary with values of a list of indexes the number occupies
+    # Add found numbers as keys to a dictionary with values of a list of
+    # indexes the number occupies with a buffer of one on each side
     for num in nums:
-        found_numbers[num] = list(range(string.index(num), (string.index(num) + len(num))))
+        if string.index(num) > 0 and string.index(num) != (len(string) - len(num)):
+            found_numbers[num] = list(range((string.index(num) - 1), (string.index(num) + len(num) + 1)))
+        elif string.index(num) == 0:
+            found_numbers[num] = list(range(0, (len(num) + 1)))
+        elif string.index(num) == (len(string) - len(num)):
+            found_numbers[num] = list(range((string.index(num) - 1), len(string)))
 
     return found_numbers
 
@@ -90,8 +96,8 @@ with open('day3_gear_ratios/puzzle_input3.txt', 'r') as file:
 # for line in data:
 #     dllist.append(line)
 
-nums = find_numbers(data[0])
-syms = find_symbols(data[0])
+nums = find_numbers(data[1])
+syms = find_symbols(data[1])
 
 print(nums)
 print(syms)
