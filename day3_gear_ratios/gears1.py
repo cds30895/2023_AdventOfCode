@@ -16,6 +16,32 @@ class DoubleNode():
         self.prev = None
         self.numbers = find_numbers(value)
         self.syms_idx = find_symbols(value)
+        for number in self.numbers.keys():
+            self.adj_nums[number] = False
+
+    # Function to update dictionary of numbers with value True if adjacent to symbols in the same row, else False
+    def same_row_adj_nums(self):
+        for number, idx_list in self.numbers.items():
+            for idx in idx_list:
+                if idx in self.syms_idx:
+                    self.adj_nums[number] = True
+
+
+    # Function to update dictionary of numbers with value True if adjacent to symbols in row above, including diagonally, else False
+    def above_row_adj_nums(self):
+        for number, idx_list in self.numbers.items():
+            for idx in idx_list:
+                if idx in self.prev.syms_idx:
+                    self.adj_nums[number] = True
+
+
+    # Function to update dictionary of numbers with value True if adjacent to symbols in row below, including diagonally, else False
+    def below_row_adj_nums(self):
+        for number, idx_list in self.numbers.keys():
+            for idx in idx_list:
+                if idx in self.next.syms_idx:
+                    self.adj_nums[number] = True
+
 
 class DoublyLinkedList():
     def __init__(self):
@@ -35,6 +61,38 @@ class DoublyLinkedList():
         self.tail.next = new_node
         self.tail = new_node
         print(f'Appended new Node with value: {self.tail.value}')
+    
+    # Function to return a list of numbers adjacent to symbols in their own row and rows above and below, including diagonally
+    def nums_by_syms(self):
+        adj_nums = []
+        
+        # Due to fencepost problem, code for head must be run outside while loop
+        # After determining numbers adjacent to symbols, add those numbers to adj_nums list
+        node = self.head
+        node.same_row_adj_nums()
+        node.below_row_adj_nums()
+        for number, value in node.adj_nums.items():
+            if value:
+                adj_nums.append(number)
+
+        while node.tail is not None:
+            node = node.next
+
+            if node == self.tail:
+                node.same_row_adj_nums()
+                node.below_row_adj_nums()
+            else:
+                node.above_row_adj_nums()
+                node.same_row_adj_nums()
+                node.below_row_adj_nums()
+
+            for number, value in node.adj_nums.items():
+                if value:
+                    adj_nums.append(number)
+
+        return adj_nums
+
+
 
 
 #### FUNCTIONS ####
