@@ -7,6 +7,8 @@ Description: This program will take a large input of numbers separated by period
 
 #### CLASSES ####
 
+# The DoubleNode() and DoublyLinkedList() form an architecture in
+# which each line can be compared to the line above and below it
 class DoubleNode():
     def __init__(self, value):
         self.value = value
@@ -18,6 +20,32 @@ class DoubleNode():
 
         # List of indexes occupied by symbols
         self.syms_idx = find_symbols(value)
+        for number in self.numbers.keys():
+            self.adj_nums[number] = False
+
+    # Function to update dictionary of numbers with value True if adjacent to symbols in the same row, else False
+    def same_row_adj_nums(self):
+        for number, idx_list in self.numbers.items():
+            for idx in idx_list:
+                if idx in self.syms_idx:
+                    self.adj_nums[number] = True
+
+
+    # Function to update dictionary of numbers with value True if adjacent to symbols in row above, including diagonally, else False
+    def above_row_adj_nums(self):
+        for number, idx_list in self.numbers.items():
+            for idx in idx_list:
+                if idx in self.prev.syms_idx:
+                    self.adj_nums[number] = True
+
+
+    # Function to update dictionary of numbers with value True if adjacent to symbols in row below, including diagonally, else False
+    def below_row_adj_nums(self):
+        for number, idx_list in self.numbers.keys():
+            for idx in idx_list:
+                if idx in self.next.syms_idx:
+                    self.adj_nums[number] = True
+
 
 class DoublyLinkedList():
     def __init__(self):
@@ -67,6 +95,38 @@ class DoublyLinkedList():
                     break
         
         return adjacent_numbers
+    
+    # Function to return a list of numbers adjacent to symbols in their own row and rows above and below, including diagonally
+    def nums_by_syms(self):
+        adj_nums = []
+        
+        # Due to fencepost problem, code for head must be run outside while loop
+        # After determining numbers adjacent to symbols, add those numbers to adj_nums list
+        node = self.head
+        node.same_row_adj_nums()
+        node.below_row_adj_nums()
+        for number, value in node.adj_nums.items():
+            if value:
+                adj_nums.append(number)
+
+        while node.tail is not None:
+            node = node.next
+
+            if node == self.tail:
+                node.same_row_adj_nums()
+                node.below_row_adj_nums()
+            else:
+                node.above_row_adj_nums()
+                node.same_row_adj_nums()
+                node.below_row_adj_nums()
+
+            for number, value in node.adj_nums.items():
+                if value:
+                    adj_nums.append(number)
+
+        return adj_nums
+
+
 
 
 #### FUNCTIONS ####
@@ -78,20 +138,30 @@ def find_numbers(string):
     nums_idx = []
     found_numbers = {}
 
+    # Replace all symbols with '.'
     for char in string:
         if char == '.' or char.isnumeric():
             chunks += char
         else:
             chunks += '.'
 
+    # Create a new list split by '.' in order to preserve multi-numeral numbers
     chunks = chunks.split('.')
     
+    # Add the preserved numbers to a list, filtering out '.' and ''
     for item in chunks:
         if item != '.' and item != '':
             nums.append(item)
 
+    # Add found numbers as keys to a dictionary with values of a list of
+    # indexes the number occupies with a buffer of one on each side
     for num in nums:
-        found_numbers[num] = string.index(num)
+        if string.index(num) > 0 and string.index(num) != (len(string) - len(num)):
+            found_numbers[num] = list(range((string.index(num) - 1), (string.index(num) + len(num) + 1)))
+        elif string.index(num) == 0:
+            found_numbers[num] = list(range(0, (len(num) + 1)))
+        elif string.index(num) == (len(string) - len(num)):
+            found_numbers[num] = list(range((string.index(num) - 1), len(string)))
 
     return found_numbers
 
@@ -99,6 +169,7 @@ def find_numbers(string):
 def find_symbols(string):
     syms_idx = []
 
+    # Append indexes of symbols to a list
     for i, char in enumerate(string):
         if char != '.' and not char.isnumeric():
             syms_idx.append(i)
