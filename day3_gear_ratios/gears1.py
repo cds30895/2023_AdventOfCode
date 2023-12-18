@@ -23,29 +23,6 @@ class DoubleNode():
         for number in self.numbers.keys():
             self.adj_nums[number] = False
 
-    # Function to update dictionary of numbers with value True if adjacent to symbols in the same row, else False
-    def same_row_adj_nums(self):
-        for number, idx_list in self.numbers.items():
-            for idx in idx_list:
-                if idx in self.syms_idx:
-                    self.adj_nums[number] = True
-
-
-    # Function to update dictionary of numbers with value True if adjacent to symbols in row above, including diagonally, else False
-    def above_row_adj_nums(self):
-        for number, idx_list in self.numbers.items():
-            for idx in idx_list:
-                if idx in self.prev.syms_idx:
-                    self.adj_nums[number] = True
-
-
-    # Function to update dictionary of numbers with value True if adjacent to symbols in row below, including diagonally, else False
-    def below_row_adj_nums(self):
-        for number, idx_list in self.numbers.keys():
-            for idx in idx_list:
-                if idx in self.next.syms_idx:
-                    self.adj_nums[number] = True
-
 
 class DoublyLinkedList():
     def __init__(self):
@@ -127,8 +104,6 @@ class DoublyLinkedList():
         return adj_nums
 
 
-
-
 #### FUNCTIONS ####
 
 # Function to return dictionary of all numbers and their indexes in a given string
@@ -164,6 +139,7 @@ def find_numbers(string):
             found_numbers[num] = list(range((string.index(num) - 1), len(string)))
 
     return found_numbers
+
 
 # Function to return list of indexes of all symbols in a given string
 def find_symbols(string):
