@@ -1,5 +1,5 @@
 """
-Advent of Code Day 3: Gear Ratios
+Advent of Code Day 3: Gear Ratios - Puzzle 1
 Author: Chris Smith
 Description: This program will take a large input of numbers separated by periods and symbols and print
     the sum of all numbers that are adjacent to a symbol horizontally, vertically, or diagonally.
