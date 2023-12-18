@@ -41,35 +41,38 @@ class DoublyLinkedList():
         self.tail = new_node
         # print(f'Appended new Node with value: {self.tail.value}')
 
-    # def adjacent_numbers(self):
-    #     adjacent_numbers = []
-    #     node = self.head
+    def adjacent_numbers(self):
+        adjacent_numbers = []
+        node = self.head
 
-    #     # Separate loop for head node
-    #     for num, num_idx in node.numbers.items():
-    #         for idx in num_idx:
-    #             if idx in node.syms_idx or idx in node.next.syms_idx:
-    #                 adjacent_numbers.append(int(num))
-    #                 break
-    #     node = node.next
+        # Separate loop for head node
+        for tup in node.numbers:
+            for idx in tup[1]:
+                if idx in node.syms_idx or idx in node.next.syms_idx:
+                    adjacent_numbers.append(int(tup[0]))
+        node = node.next
 
-    #     while node.next is not None:
-    #         for num, num_idx in node.numbers.items():
-    #             for idx in num_idx:
-    #                 if idx in node.prev.syms_idx or idx in node.syms_idx or idx in node.next.syms_idx:
-    #                     adjacent_numbers.append(int(num))
-    #                     break
+        # While the node is not the tail node, if any index paired with a number is found
+        # in the list of symbol indexes for the previous, current, or next node, append
+        # the number to the adjacent_numbers list
+        while node.next is not None:
+            for tup in node.numbers:
+                for idx in tup[1]:
+                    if idx in node.prev.syms_idx or idx in node.syms_idx or idx in node.next.syms_idx:
+                        adjacent_numbers.append(int(tup[0]))
+                        break
             
-    #         node = node.next
+            node = node.next
 
-    #     # Separate loop for tail node
-    #     for num, num_idx in node.numbers.items():
-    #         for idx in num_idx:
-    #             if idx in node.prev.syms_idx or idx in node.syms_idx:
-    #                 adjacent_numbers.append(int(num))
-    #                 break
+        # Separate loop for tail node
+        for tup in node.numbers:
+            for idx in tup[1]:
+                if idx in node.prev.syms_idx or idx in node.syms_idx:
+                    adjacent_numbers.append(int(tup[0]))
+                    break
+
         
-    #     return adjacent_numbers
+        return adjacent_numbers
 
 
 #### FUNCTIONS ####
@@ -108,7 +111,6 @@ def find_numbers(string):
             found_numbers.append((num, list(range((string.index(num) - 1), len(string)))))
             string = string.replace(num, ' ' * len(num), 1)
 
-    print(found_numbers)
     return found_numbers
 
 
