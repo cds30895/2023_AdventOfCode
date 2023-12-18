@@ -132,8 +132,7 @@ def find_symbols(string):
 dllist = DoublyLinkedList()
 
 # Open the file and place each line in a list
-# with open('day3_gear_ratios/puzzle_input3.txt', 'r') as file:
-with open('day3_gear_ratios/test_input3.txt', 'r') as file:
+with open('day3_gear_ratios/puzzle_input3.txt', 'r') as file:
     raw_data = file.read()
     data = raw_data.split('\n')
 
@@ -144,9 +143,3 @@ adjacent_numbers = dllist.adjacent_numbers()
 total = sum(adjacent_numbers)
 
 print(total)
-print()
-print()
-print(adjacent_numbers)
-
-# for i, line in enumerate(data):
-#     print(i + 1, line.replace('.', ' '))
