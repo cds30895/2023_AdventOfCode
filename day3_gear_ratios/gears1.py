@@ -20,8 +20,6 @@ class DoubleNode():
 
         # List of indexes occupied by symbols
         self.syms_idx = find_symbols(value)
-        for number in self.numbers.keys():
-            self.adj_nums[number] = False
 
 
 class DoublyLinkedList():
@@ -43,65 +41,35 @@ class DoublyLinkedList():
         self.tail = new_node
         # print(f'Appended new Node with value: {self.tail.value}')
 
-    def adjacent_numbers(self):
-        adjacent_numbers = []
-        node = self.head
+    # def adjacent_numbers(self):
+    #     adjacent_numbers = []
+    #     node = self.head
 
-        # Separate loop for head node
-        for num, num_idx in node.numbers.items():
-            for idx in num_idx:
-                if idx in node.syms_idx or idx in node.next.syms_idx:
-                    adjacent_numbers.append(num)
-                    break
-        node = node.next
+    #     # Separate loop for head node
+    #     for num, num_idx in node.numbers.items():
+    #         for idx in num_idx:
+    #             if idx in node.syms_idx or idx in node.next.syms_idx:
+    #                 adjacent_numbers.append(int(num))
+    #                 break
+    #     node = node.next
 
-        while node.next is not None:
-            for num, num_idx in node.numbers.items():
-                for idx in num_idx:
-                    if idx in node.prev.syms_idx or idx in node.syms_idx or idx in node.next.syms_idx:
-                        adjacent_numbers.append(num)
-                        break
+    #     while node.next is not None:
+    #         for num, num_idx in node.numbers.items():
+    #             for idx in num_idx:
+    #                 if idx in node.prev.syms_idx or idx in node.syms_idx or idx in node.next.syms_idx:
+    #                     adjacent_numbers.append(int(num))
+    #                     break
             
-            node = node.next
+    #         node = node.next
 
-        # Separate loop for tail node
-        for num, num_idx in node.numbers.items():
-            for idx in num_idx:
-                if idx in node.prev.syms_idx or idx in node.syms_idx:
-                    adjacent_numbers.append(num)
-                    break
+    #     # Separate loop for tail node
+    #     for num, num_idx in node.numbers.items():
+    #         for idx in num_idx:
+    #             if idx in node.prev.syms_idx or idx in node.syms_idx:
+    #                 adjacent_numbers.append(int(num))
+    #                 break
         
-        return adjacent_numbers
-    
-    # Function to return a list of numbers adjacent to symbols in their own row and rows above and below, including diagonally
-    def nums_by_syms(self):
-        adj_nums = []
-        
-        # Due to fencepost problem, code for head must be run outside while loop
-        # After determining numbers adjacent to symbols, add those numbers to adj_nums list
-        node = self.head
-        node.same_row_adj_nums()
-        node.below_row_adj_nums()
-        for number, value in node.adj_nums.items():
-            if value:
-                adj_nums.append(number)
-
-        while node.tail is not None:
-            node = node.next
-
-            if node == self.tail:
-                node.same_row_adj_nums()
-                node.below_row_adj_nums()
-            else:
-                node.above_row_adj_nums()
-                node.same_row_adj_nums()
-                node.below_row_adj_nums()
-
-            for number, value in node.adj_nums.items():
-                if value:
-                    adj_nums.append(number)
-
-        return adj_nums
+    #     return adjacent_numbers
 
 
 #### FUNCTIONS ####
@@ -110,8 +78,7 @@ class DoublyLinkedList():
 def find_numbers(string):
     chunks = ''
     nums = []
-    nums_idx = []
-    found_numbers = {}
+    found_numbers = []
 
     # Replace all symbols with '.'
     for char in string:
@@ -122,7 +89,7 @@ def find_numbers(string):
 
     # Create a new list split by '.' in order to preserve multi-numeral numbers
     chunks = chunks.split('.')
-    
+
     # Add the preserved numbers to a list, filtering out '.' and ''
     for item in chunks:
         if item != '.' and item != '':
@@ -132,22 +99,27 @@ def find_numbers(string):
     # indexes the number occupies with a buffer of one on each side
     for num in nums:
         if string.index(num) > 0 and string.index(num) != (len(string) - len(num)):
-            found_numbers[num] = list(range((string.index(num) - 1), (string.index(num) + len(num) + 1)))
+            found_numbers.append((num, list(range((string.index(num) - 1), (string.index(num) + len(num) + 1)))))
+            string = string.replace(num, ' ' * len(num), 1)
         elif string.index(num) == 0:
-            found_numbers[num] = list(range(0, (len(num) + 1)))
+            found_numbers.append((num, list(range(0, (len(num) + 1)))))
+            string = string.replace(num, ' ' * len(num), 1)
         elif string.index(num) == (len(string) - len(num)):
-            found_numbers[num] = list(range((string.index(num) - 1), len(string)))
+            found_numbers.append((num, list(range((string.index(num) - 1), len(string)))))
+            string = string.replace(num, ' ' * len(num), 1)
 
+    print(found_numbers)
     return found_numbers
 
 
 # Function to return list of indexes of all symbols in a given string
 def find_symbols(string):
     syms_idx = []
+    syms = ['*', '=', '-', '+', '&', '#', '%', '/', '@', '$']
 
     # Append indexes of symbols to a list
     for i, char in enumerate(string):
-        if char != '.' and not char.isnumeric():
+        if char in syms:
             syms_idx.append(i)
 
     return syms_idx
@@ -158,10 +130,21 @@ def find_symbols(string):
 dllist = DoublyLinkedList()
 
 # Open the file and place each line in a list
-with open('day3_gear_ratios/puzzle_input3.txt', 'r') as file:
+# with open('day3_gear_ratios/puzzle_input3.txt', 'r') as file:
+with open('day3_gear_ratios/test_input3.txt', 'r') as file:
     raw_data = file.read()
     data = raw_data.split('\n')
 
 for line in data:
-    dllist.append(line)
+    dllist.append(line.replace('.', ' '))
 
+adjacent_numbers = dllist.adjacent_numbers()
+total = sum(adjacent_numbers)
+
+print(total)
+print()
+print()
+print(adjacent_numbers)
+
+# for i, line in enumerate(data):
+#     print(i + 1, line.replace('.', ' '))
