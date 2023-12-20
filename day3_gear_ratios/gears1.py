@@ -15,7 +15,7 @@ class DoubleNode():
         self.next = None
         self.prev = None
 
-        # Dictionary with keys of discrete numbers, values of indexes occupied by number with buffer of 1 on either side
+        # List of tuples with (number, list of indexes occupied by number with buffer of 1)
         self.numbers = find_numbers(value)
 
         # List of indexes occupied by symbols
