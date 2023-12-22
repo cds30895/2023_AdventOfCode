@@ -98,7 +98,7 @@ def find_numbers(string):
         if item != '.' and item != '':
             nums.append(item)
 
-    # Add found numbers as keys to a dictionary with values of a list of
+    # Add found numbers as tuples with tup[1] values of a list of
     # indexes the number occupies with a buffer of one on each side
     for num in nums:
         if string.index(num) > 0 and string.index(num) != (len(string) - len(num)):
