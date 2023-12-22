@@ -29,7 +29,7 @@ class DoubleNode():
                 chunks += char
             else:
                 chunks += '.'
-        
+
         # Create a new list split by '.' in order to preserve multi-numeral numbers
         chunks = chunks.split('.')
 
@@ -50,18 +50,18 @@ class DoubleNode():
             elif string.index(num) == (len(string) - len(num)):
                 found_numbers.append((num, list(range((string.index(num) - 1), len(string)))))
                 string = string.replace(num, ' ' * len(num), 1)
-            
+
         return found_numbers
-    
+
     def find_gears(self):
         gears_idx = []
-        
+
         for i, char in enumerate(self.value):
             if char == '*':
                 gears_idx.append(i)
 
         return gears_idx
-    
+
 
 class DoublyLinkedList():
     def __init__(self):
@@ -75,7 +75,21 @@ class DoublyLinkedList():
             self.head = new_node
             self.tail = new_node
             return
-        
+
         new_node.prev = self.tail
         self.tail.next = new_node
         self.tail = new_node
+
+
+#### MAIN CODE ####
+
+dllist = DoublyLinkedList()
+
+with open('day3_gear_ratios/puzzle_input3.txt', 'r') as file:
+    raw_data = file.read()
+    data = raw_data.split('\n')
+
+for line in data:
+    dllist.append(line)
+
+print(dllist.head.next.gears_idx)
